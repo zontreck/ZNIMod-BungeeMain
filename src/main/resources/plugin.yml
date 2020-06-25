@@ -1,0 +1,4 @@
+name: ZontreckDev
+main: zeenai.server.bungee.ZNIPlugin
+version: 1.0
+author: zontreck

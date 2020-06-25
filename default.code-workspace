@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.settings.useSplitJSON": true,
+		"files.autoGuessEncoding": true,
+		"java.import.gradle.jvmArguments": "-Dfile.encoding=UTF-8",
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.codeGeneration.generateComments": true,
+		"java.maven.updateSnapshots": true,
+		"java.maven.downloadSources": true
+	}
+}
