@@ -3,6 +3,7 @@ package zeenai.server.bungee.commands;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
@@ -43,7 +44,8 @@ public class Auth extends Command {
                     sender.sendMessage(new TextComponent("ERROR CODE 0x01: ACCOUNT NOT EXIST, REGISTER RETURNED EXIST.\n\n"+ChatColor.RED+"Please ping Aria on discord for assistance."));
                 } else if(spl[0].compareToIgnoreCase("Created") == 0){
                     sender.sendMessage(new TextComponent("SUCCESS\n\nYour account was created successfully. However you must first confirm to sign in. Activation link: "));
-                    sender.sendMessage(new TextComponent(spl[1]));
+                    BaseComponent[] comp = TextComponent.fromLegacyText(spl[1], ChatColor.BLUE);
+                    sender.sendMessage(comp[0]);
                     Events.playerStates.remove(sender.getName());
                     Events.playerStates.put(sender.getName(), State.POST_AUTH_NEW);
                 }
