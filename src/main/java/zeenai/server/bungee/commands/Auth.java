@@ -42,7 +42,7 @@ public class Auth extends Command {
                 if(spl[0].compareToIgnoreCase("Account Exists")==0){
                     sender.sendMessage(new TextComponent("ERROR CODE 0x01: ACCOUNT NOT EXIST, REGISTER RETURNED EXIST.\n\n"+ChatColor.RED+"Please ping Aria on discord for assistance."));
                 } else if(spl[0].compareToIgnoreCase("Created") == 0){
-                    sender.sendMessage(new TextComponent("SUCCESS\n\nYour account was created successfully. However you must first confirm to sign in. Activation link: "+spl[1]));
+                    sender.sendMessage(new TextComponent("SUCCESS\n\nYour account was created successfully. However you must first confirm to sign in. Activation link: "+new TextComponent(spl[1])));
                     Events.playerStates.remove(sender.getName());
                     Events.playerStates.put(sender.getName(), State.POST_AUTH_NEW);
                 }
