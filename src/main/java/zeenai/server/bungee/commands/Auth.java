@@ -24,7 +24,7 @@ public class Auth extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(new TextComponent("Correct usage: /auth <string:Password>\nNew Account: /auth <string:Password> <string:email>"));
+            sender.sendMessage(new TextComponent("Correct usage: /auth <string:Password>\nNew Account: /auth <string:Password> <string:challenge>"));
             return;
         }
 
@@ -37,24 +37,24 @@ public class Auth extends Command {
             // Check arg count, and make account if applicable
             if(args.length==2){
                 // make account
-                rep = ZDC.SendRequest(false, true, "register.php?user="+sender.getName()+"&pass="+args[0]+"&email="+args[1]+"&uuid="+p.getUniqueId().toString(), "");
-
-                if(rep.body.compareToIgnoreCase("Account Exists")==0){
-                    sender.sendMessage(new TextComponent("ERROR CODE 0x01: ACCOUNT NOT EXIST, REGISTER RETURNED EXIST.\n\n"+ChatColor.RED+"Please email support@zontreck.dev for further assistance"));
-                } else if(rep.body.compareToIgnoreCase("Created") == 0){
-                    sender.sendMessage(new TextComponent("SUCCESS\n\nYour account was created successfully. However you must first confirm your email to be able to sign in.\n\nPlease check your inbox and spam folder. Click the provided link in the email to activate your account"));
+                rep = ZDC.SendRequest(false, true, "register.php?user="+sender.getName()+"&pass="+args[0]+"&challenge="+args[1]+"&uuid="+p.getUniqueId().toString(), "");
+                String[] spl = rep.body.split(";;");
+                if(spl[0].compareToIgnoreCase("Account Exists")==0){
+                    sender.sendMessage(new TextComponent("ERROR CODE 0x01: ACCOUNT NOT EXIST, REGISTER RETURNED EXIST.\n\n"+ChatColor.RED+"Please ping Aria on discord for assistance."));
+                } else if(spl[0].compareToIgnoreCase("Created") == 0){
+                    sender.sendMessage(new TextComponent("SUCCESS\n\nYour account was created successfully. However you must first confirm to sign in. Activation link: "+spl[1]));
                     Events.playerStates.remove(sender.getName());
                     Events.playerStates.put(sender.getName(), State.POST_AUTH_NEW);
                 }
             }else{
-                sender.sendMessage(new TextComponent("Please use this command usage: /auth <string:Password> <string:Email>"));
+                sender.sendMessage(new TextComponent("Please use this command usage: /auth <string:Password> <string:Challenge>"));
             }
         } else if(rep.body.compareToIgnoreCase("Locked") == 0){
-            sender.sendMessage(new TextComponent("The account is locked due to too many failed login attempts. Please check the email on file to reactivate the account"));
+            sender.sendMessage(new TextComponent("The account is locked due to too many failed login attempts. Ping @Aria on discord for assistance. You may also ping any moderators listed on Discord."));
         } else if(rep.body.compareToIgnoreCase("Login Failed") == 0){
             sender.sendMessage(new TextComponent("Login has failed"));
         } else if(rep.body.compareToIgnoreCase("Not Activated") == 0){
-            sender.sendMessage(new TextComponent(ChatColor.RED+"Your account is not activated. Please check the email you registered with to proceed"));
+            sender.sendMessage(new TextComponent(ChatColor.RED+"Your account is not activated. Please re-create the account for your activation link."));
         } else if(rep.body.compareToIgnoreCase("Proceed") == 0){
             sender.sendMessage(new TextComponent(ChatColor.GREEN+"Success!"+ChatColor.AQUA+"\n\nServer capacity will be checked"));
             Events.playerStates.remove(sender.getName());
